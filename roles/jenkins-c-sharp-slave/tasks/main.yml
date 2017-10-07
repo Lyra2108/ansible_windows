@@ -1,0 +1,7 @@
+- name: Install C# build software
+  win_chocolatey:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+   - microsoft-build-tools
+   - nuget.commandline
