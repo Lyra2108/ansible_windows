@@ -1,0 +1,3 @@
+jenkins_location : http://sarah-desktop.fritz.box:8080
+jenkins_workspace: C:\Jenkins
+jenkins_username: ci-slave

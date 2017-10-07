@@ -1,0 +1,49 @@
+- name: Install requiered software
+  win_chocolatey:
+          name: "{{ item }}"
+          state: latest
+  with_items:
+   - nssm
+   - jdk8
+
+- name: Add a jenkins service user
+  win_user:
+    name: "{{ jenkins_username }}"
+    password: "{{ lookup('password', 'vars/jenkins_user_password') }}"
+    update_password: on_create
+    state: present
+
+- name: Grant the slave user service rights
+  win_user_right:
+    name: SeServiceLogonRight
+    users:
+    - "{{ jenkins_username }}"
+    action: add
+
+- name: Set up the workspace folder
+  win_file:
+    name: "{{ jenkins_workspace }}"
+    state: directory
+
+- name: Download the slave.jar from Jenkins
+  win_get_url:
+    url: "{{ jenkins_location }}/jnlpJars/slave.jar"
+    dest: "{{ jenkins_workspace }}\\slave.jar"
+
+- name: Change owner rights
+  win_owner:
+    path: "{{ jenkins_workspace }}"
+    user: "{{ jenkins_username }}"
+    recurse: yes
+
+- name: Run Jenkins as a service
+  win_nssm:
+    name: "Jenkins_Slave"
+    displayname: "Jenkins Slave"
+    description: "Registers this maschine as a Jenkins slave node to {{ jenkins_location }}"
+    application: "{{ ansible_env.JAVA_HOME }}\\bin\\java.exe"
+    app_parameters_free_form: "-jar C:\\Jenkins\\slave.jar -jnlpUrl {{ jenkins_location }}/computer/{{ jenkins_node_name }}/slave-agent.jnlp -secret {{ jenkins_node_secret }}"
+    username: "{{ jenkins_username }}"
+    password: "{{ lookup('password', 'vars/jenkins_user_password') }}"
+    start_mode: auto
+    state: started
