@@ -1,2 +1,3 @@
 jenkins_node_name: Windows
 jenkins_node_secret : 511682665535e3846716b6873da615da8a11d0e92bcc3f06ba62f83637fdfecd
+jenkins_c_sharp: true

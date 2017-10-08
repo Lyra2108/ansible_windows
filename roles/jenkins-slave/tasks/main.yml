@@ -47,3 +47,12 @@
     password: "{{ lookup('password', 'vars/jenkins_user_password') }}"
     start_mode: auto
     state: started
+
+- name: Install C# build software
+  win_chocolatey:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+   - microsoft-build-tools
+   - nuget.commandline
+  when: jenkins_c_sharp

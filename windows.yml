@@ -1,3 +1,3 @@
 - hosts: windows
   roles:
-    - jenkins-c-sharp-slave
+    - jenkins-slave
