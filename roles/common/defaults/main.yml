@@ -1,4 +1,5 @@
-default_setup: true
+default_setup: false
+minimal_setup: true
 extented_setup: false
 dev_c_sharp: false
 dev_vm: false

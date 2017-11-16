@@ -18,13 +18,20 @@
     name: all
     state: latest
 
-- name: Install default software
+- name: Do minimal setup
   win_chocolatey:
     name: '{{ item }}'
     state: present
   with_items:
     - firefox
     - sublimetext3
+  when: minimal_setup or default_setup
+
+- name: Install default software
+  win_chocolatey:
+    name: '{{ item }}'
+    state: present
+  with_items:
     - thunderbird
     - libreoffice
     - keepass
