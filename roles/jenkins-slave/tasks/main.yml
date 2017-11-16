@@ -5,6 +5,7 @@
   with_items:
    - nssm
    - jdk8
+   - git
 
 - name: Add a jenkins service user
   win_user:
@@ -55,4 +56,5 @@
   with_items:
    - microsoft-build-tools
    - nuget.commandline
+   - visualstudio2017professional
   when: jenkins_c_sharp
